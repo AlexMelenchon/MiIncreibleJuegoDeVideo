@@ -8,6 +8,7 @@ int main(int argc, char * argv[]) {
 
 	SDL_Window *window;
 	SDL_Renderer *renderer = NULL;
+	SDL_Event event;
 
 
 	window = SDL_CreateWindow(
@@ -19,21 +20,41 @@ int main(int argc, char * argv[]) {
 		SDL_WINDOW_OPENGL                  // flags - see below
 	);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	
 
-	while(true){
+	SDL_Rect dstrect;
+
+	dstrect.x = 190;
+	dstrect.y = 110;
+	dstrect.w = 240;
+	dstrect.h = 240;
+	
+
+	while (true) {
 		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 		SDL_RenderClear(renderer);
 		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-
-		SDL_Rect dstrect;
-
-		dstrect.x = 160;
-		dstrect.y =80;
-		dstrect.w = 320;
-		dstrect.h = 320;
 		SDL_RenderFillRect(renderer, &dstrect);
-
 		SDL_RenderPresent(renderer);
+
+		while (SDL_PollEvent(&event)) {
+			switch (event.type) {
+			case (SDL_KEYDOWN):
+				switch (event.key.keysym.sym) {
+				case SDLK_LEFT: dstrect.x -= 15; break;
+				case SDLK_RIGHT: dstrect.x += 15; break;
+				case SDLK_UP: dstrect.y -= 15; break;
+				case SDLK_DOWN: dstrect.y += 15; break;
+				default: break;
+			}
+				break;
+			default: break;
+
+
+
+			}
+		}
 	}
+
 	return 0;
 }
