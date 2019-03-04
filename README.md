@@ -1,1 +1,0 @@
-This is some basic SDL testing.
